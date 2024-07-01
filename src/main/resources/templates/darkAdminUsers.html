@@ -15,23 +15,37 @@
         <div sec:authorize="hasRole('ROLE_ADMIN')" >
             <a th:href="@{/logout}">Logout</a>
             <a th:href="@{/admin}">Admin</a>
-            <a th:href="@{/darka}">Let me guess</a>
+            <a th:href="@{/darkadmin}">Let me guess</a>
         </div>
 
-        <form th:action="@{/}" method="post">
+        <div>
             <table th:each="user: ${users}">
-                <tr>
-                    <td th:text="${user.name}"></td>
-                    <td th:text="${user.email}"></td>
-                    <td th:text="${user.iban}"></td>
-                    <div><label> Number : <input type="number" name="number"/> </label></div>
-                    <div><input type="submit" value="For Me"/></div>
-                </tr>
-
+                <form th:action="@{/darkAdmin}" th:object="${user}" method="post"></form>
+                <thead>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Iban</th>
+                </thead>
+                <tb>
+                    <tbody>
+                        <td th:text="${user.name}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.iban}"></td>
+                        <div><label> Number : <input type="number" name="number"/> </label></div>
+                        <div><input type="submit" value="For Me"/></div>
+                    </tbody>
+                </tb>
             </table>
 
             <div><input type="submit" value="Sign In"/></div>
-        </form>
+
+
+
+        </div>
+
+
+
+
 
 
 
