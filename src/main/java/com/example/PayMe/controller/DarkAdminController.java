@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -18,9 +19,9 @@ public class DarkAdminController {
     DarkAdminService darkAdminService;
 
 
-    @GetMapping("/darkadmin")
-    public String (Model model, RedirectAttributes ra){
-        model.addAttribute("users", darkAdminService.getAllUser());
+    @RequestMapping("/darkadmin")
+    public String darkAdminPage (Model model, RedirectAttributes ra){
+        model.addAttribute("darkAdmin", darkAdminService.getAllUser());
         return "darkAdminUsers";
 		/*String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
 		if(role.contains("ROLE_ADMIN")){
@@ -32,19 +33,19 @@ public class DarkAdminController {
 		}*/
     }
 
-    @PostMapping("/addContact")
+    @PostMapping("/addCash")
     public String addContact(@RequestParam(value = "name") String name, Model model) {
         User user = darkAdminService.getConnectedUser();
         User userToAdd =darkAdminService.getUserByName(name);
         if(userToAdd!=null) {
             if(!user.getListContacts().contains(userToAdd) && user!=userToAdd) {
                 user.getListContacts().add(userToAdd);
-                darkAdminService.delete(user);
+                darkAdminService.save(user);
             };
         }
         model.addAttribute("listContact", user.getListContacts());
 
-        return "userProfil";
+        return "darkAdminUsers";
     }
 
 }

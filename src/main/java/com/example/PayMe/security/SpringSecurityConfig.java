@@ -24,6 +24,7 @@ public class SpringSecurityConfig {
 			auth.requestMatchers("/").permitAll();
 			auth.requestMatchers("/admin").hasRole("ADMIN");
 			auth.requestMatchers("/user").hasRole("USER");
+			auth.requestMatchers("/darkadmin").hasRole("DARKADMIN");
 			auth.anyRequest().authenticated();
 		}).formLogin(Customizer.withDefaults()).build();
 	}
@@ -41,8 +42,8 @@ public class SpringSecurityConfig {
 		UserDetails darkAdmin = User.builder()
 		        .username("darkAdmin")
 		        .password(passwordEncoder().encode("darkAdmin"))
-		        .roles("USER","ADMIN").build();
-		return new InMemoryUserDetailsManager(user, admin);
+		        .roles("USER","ADMIN","DARKADMIN").build();
+		return new InMemoryUserDetailsManager(user, admin, darkAdmin);
 	}
 	
 	@Bean
